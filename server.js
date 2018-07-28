@@ -1,12 +1,12 @@
 var express = require('express');
 var app = express();
 var bodyParser = require('body-parser');
-var registerRoutes = require('./app/routes');
+var registerRoutes = require('./routes');
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json())
  
-const db = require('./app/config/db.config');
+const db = require('./config/db.config');
 
 const port = 8000;
   

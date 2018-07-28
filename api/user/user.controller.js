@@ -2,7 +2,7 @@ const db = require('../../config/db.config');
 const User = db.users;
  
 // Post a User
-exports.create = (req, res) => {	
+exports.create = (req, res) => {
 	// Save to MySQL database
 	User.create({  
 	  name: req.body.name,
@@ -11,7 +11,7 @@ exports.create = (req, res) => {
 		password: req.body.password
 	}).then(user => {		
 		// Send created user to client
-		res.send(user);
+		res.json(user);
 	});
 };
  
@@ -19,14 +19,14 @@ exports.create = (req, res) => {
 exports.findAll = (req, res) => {
 	User.findAll().then(users => {
 	  // Send all users to Client
-	  res.send(users);
+	  res.json(users);
 	});
 };
  
 // Find a User by Id
 exports.findById = (req, res) => {	
 	User.findById(req.params.userId).then(user => {
-		res.send(user);
+		res.json(user);
 	})
 };
  
@@ -41,8 +41,8 @@ exports.update = (req, res) => {
 			password: req.body.password 
 		}, { 
 			where: {id: id} 
-		}).then(() => {
-			res.status(200).send("updated successfully a user with id = " + id);
+		}).then((user) => {
+			res.status(200).json(user);
 		});
 };
  
@@ -52,6 +52,6 @@ exports.delete = (req, res) => {
 	User.destroy({
 	  where: { id: id }
 	}).then(() => {
-	  res.status(200).send('deleted successfully a user with id = ' + id);
+	  res.status(200).json({message: `Deleted successfully a user with id = ${id}`});
 	});
 };
