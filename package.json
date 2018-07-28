@@ -9,12 +9,13 @@
   "author": "Syed Kashan Ali",
   "license": "ISC",
   "dependencies": {
-    "mysql": "latest",
-    "nodemon": "latest",
-    "sequelize": "latest",
+    "bcrypt": "^3.0.0",
     "express": "^4.16.3",
-    "mysql2": "^1.5.3",
+    "express-jwt": "^5.0.0",
     "jsonwebtoken": "^7.0.0",
-    "express-jwt": "^5.0.0"
+    "mysql": "latest",
+    "mysql2": "^1.5.3",
+    "nodemon": "latest",
+    "sequelize": "latest"
   }
 }

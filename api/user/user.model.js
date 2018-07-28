@@ -1,3 +1,5 @@
+var bcrypt = require('bcrypt');
+
 module.exports = (sequelize, Sequelize) => {
 	const User = sequelize.define('user', {
 		name: {
@@ -6,24 +8,44 @@ module.exports = (sequelize, Sequelize) => {
 		},
 		email: {
 			type: Sequelize.STRING,
-			unique: true,
-			allowNull: false
+			allowNull: false,
+			unique: {
+				msg: 'The specified email address is already in use.'
+			},
+            validate: {
+                isEmail: {
+					msg: 'Email address must be valid.'
+				}
+            }
 		},
 		cnic: {
 			type: Sequelize.INTEGER,
-			unique: true,
-			allowNull: false
+			allowNull: false,
+			unique: {
+				msg: 'The specified cnic number is already in use.'
+			}
 		},
 		password: {
 			type: Sequelize.STRING,
-			allowNull: false
+			allowNull: false,
+			set: function setPassword(pwd) {
+				// hash the password
+				this.setDataValue('password', bcrypt.hashSync(pwd, 10));
+			}
 		},
 		role: {
 			type: Sequelize.STRING,
 			allowNull: false,
 			defaultValue: 'citizen'
-		},
+		}
+	}, {
+		instanceMethods: {
+			// authenticate user given password
+			authenticate(pwd) {
+				return bcrypt.compareSync(pwd, this.password);
+			},
+		}
 	});
-	
+
 	return User;
 }

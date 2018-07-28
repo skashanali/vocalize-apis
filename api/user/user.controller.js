@@ -7,21 +7,28 @@ exports.create = (req, res) => {
 		res.json(user);
 	})
 	.catch(err => {
-		res.status(400).json({message: err.errors[0].message})
+		res.status(422).json({message: err.errors[0].message})
 	});
 };
  
 // Get all Users
 exports.findAll = (req, res) => {
-	User.findAll().then(users => {
+	User.findAll({
+		attributes: [ 'id', 'name', 'email', 'cnic', 'role' ]
+	})
+	.then(users => {
 		if(users.length===0) res.status(404).json({message: 'No users found.'})
 		else res.json(users);
 	});
 };
  
 // Find a User by Id
-exports.findById = (req, res) => {	
-	User.findById(req.params.id).then(user => {
+exports.find = (req, res) => {	
+	User.findOne({
+		where: {id: req.params.id},
+		attributes: [ 'id', 'name', 'email', 'cnic', 'role' ]
+	})
+	.then(user => {
 		if(!user) res.status(404).json({message: 'User not found.'})
 		else res.json(user);
 	});
