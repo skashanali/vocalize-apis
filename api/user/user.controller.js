@@ -1,57 +1,54 @@
 const db = require('../../config/db.config');
 const User = db.users;
  
-// Post a User
+// Creates  a User
 exports.create = (req, res) => {
-	// Save to MySQL database
-	User.create({  
-	  name: req.body.name,
-	  email: req.body.email,
-		cnic: req.body.cnic,
-		password: req.body.password
-	}).then(user => {		
-		// Send created user to client
+	User.create(req.body).then(user => {
 		res.json(user);
+	})
+	.catch(err => {
+		res.status(400).json({message: err.errors[0].message})
 	});
 };
  
-// FETCH all Users
+// Get all Users
 exports.findAll = (req, res) => {
 	User.findAll().then(users => {
-	  // Send all users to Client
-	  res.json(users);
+		if(users.length===0) res.status(404).json({message: 'No users found.'})
+		else res.json(users);
 	});
 };
  
 // Find a User by Id
 exports.findById = (req, res) => {	
-	User.findById(req.params.userId).then(user => {
-		res.json(user);
-	})
+	User.findById(req.params.id).then(user => {
+		if(!user) res.status(404).json({message: 'User not found.'})
+		else res.json(user);
+	});
 };
  
-// Update a User
+// Update a User by Id
 exports.update = (req, res) => {
-	const id = req.params.userId;
-	User.update( 
-		{ 
-			name: req.body.name,
-			email: req.body.email,
-			cnic: req.body.cnic,
-			password: req.body.password 
-		}, { 
-			where: {id: id} 
-		}).then((user) => {
-			res.status(200).json(user);
+	User.update(req.body, { 
+			where: {id: req.params.id} 
+		})
+		.then(modified => {
+			let [count] = modified;
+			if(!count) res.status(404).json({message: 'User not found.'})
+			else res.json({message: `Successfully updated a user with id = ${req.params.id}`});
+		})
+		.catch(err => {
+			res.status(400).json({message: err.errors[0].message})
 		});
 };
  
 // Delete a User by Id
 exports.delete = (req, res) => {
-	const id = req.params.userId;
 	User.destroy({
-	  where: { id: id }
-	}).then(() => {
-	  res.status(200).json({message: `Deleted successfully a user with id = ${id}`});
+	  where: { id: req.params.id }
+	})
+	.then(user => {
+		if(!user) res.status(404).json({message: 'User not found.'})
+	  else res.json({message: `Successfully deleted a user with id = ${req.params.id}`});
 	});
 };
