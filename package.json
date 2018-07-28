@@ -1,0 +1,19 @@
+{
+  "name": "vocalize-apis",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Syed Kashan Ali",
+  "license": "ISC",
+  "dependencies": {
+    "mysql": "latest",
+    "nodemon": "latest",
+    "sequelize": "latest",
+    "express": "^4.16.3",
+    "mysql2": "^1.5.3",
+    "sequelize-cli": "latest"
+  }
+}
