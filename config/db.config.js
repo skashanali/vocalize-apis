@@ -10,5 +10,6 @@ db.sequelize = sequelize;
  
 //Models/tables
 db.User = require('../api/user/user.model')(sequelize, Sequelize);
+db.Issue = require('../api/issue/issue.model')(sequelize, Sequelize);
 
 module.exports = db;

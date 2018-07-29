@@ -19,7 +19,8 @@ exports.findAll = (req, res) => {
 	})
 	.then(users => {
 		if(users.length === 0)  return res.status(404).json({message: 'No users found.'})
-		res.json(users);
+		let count = users.length;
+		res.json({users, count});
 	});
 };
  

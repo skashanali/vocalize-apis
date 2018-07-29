@@ -33,9 +33,16 @@ module.exports = (sequelize, Sequelize) => {
 				this.setDataValue('password', bcrypt.hashSync(pwd, 10));
 			}
 		},
-		role: {
+		city: {
 			type: Sequelize.STRING,
 			allowNull: false,
+		},
+		area: {
+			type: Sequelize.STRING,
+			allowNull: false,
+		},
+		role: {
+			type: Sequelize.STRING,
 			defaultValue: 'citizen'
 		}
 	});

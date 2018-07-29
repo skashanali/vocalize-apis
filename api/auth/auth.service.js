@@ -20,48 +20,37 @@ exports.isAuthenticated = () => {
         // Validate jwt
         .use(function(req, res, next) {
             // allow access_token to be passed through query parameter as well
-            if(req.query && req.query.hasOwnProperty('access_token')) {
+            if(req.query && req.query.hasOwnProperty('access_token')) 
                 req.headers.authorization = `Bearer ${req.query.access_token}`;
-            }
             // IE11 forgets to set Authorization header sometimes. Pull from cookie instead.
-            if(req.query && typeof req.headers.authorization === 'undefined') {
+            if(req.query && typeof req.headers.authorization === 'undefined')
                 req.headers.authorization = `Bearer ${req.cookies.token}`;
-            }
             validateJwt(req, res, next);
         })
         // Attach user to request
         .use(function(req, res, next) {
             User.find({
-                where: {
-                    id: req.user.id
-                }
+                where: { id: req.user.id }
             })
-                .then(user => {
-                    if(!user) {
-                        return res.status(401).end();
-                    }
-                    req.user = user;
-                    next();
-                    return null;
-                })
-                .catch(err => next(err));
+            .then(user => {
+                if(!user) return res.status(401).end();
+                req.user = user;
+                next();
+                return null;
+            })
+            .catch(err => next(err));
         });
 }
 
 
 // Checks if the user role meets the minimum requirements of the route
 exports.hasRole = (roleRequired) => {
-    if(!roleRequired) {
-        throw new Error('Required role needs to be set');
-    }
     return compose()
-        .use(isAuthenticated())
+        .use(this.isAuthenticated())
         .use(function meetsRequirements(req, res, next) {
-            if(config.userRoles.indexOf(req.user.role) === config.userRoles.indexOf(roleRequired)) {
+            if(config.userRoles.indexOf(req.user.role) === config.userRoles.indexOf(roleRequired))
                 return next();
-            } else {
-                return res.status(403).send('Forbidden');
-            }
+            else return res.status(403).send('Forbidden');
         });
 }
 
