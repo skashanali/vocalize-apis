@@ -1,5 +1,6 @@
 const db = require('../../config/db.config');
 const User = db.User;
+const {authenticate} = require('../auth/auth.service');
  
 // Creates  a User
 exports.create = (req, res) => {
@@ -59,3 +60,21 @@ exports.delete = (req, res) => {
 		res.json({message: `Successfully deleted a user with id = ${req.params.id}`});
 	});
 };
+
+// Change user's password
+exports.changePassword = (req, res) => {
+	User.findOne({
+		where: { id: req.params.id }
+	})
+	.then(user => {
+		if(!user) return res.status(404).json({message: 'User not found.'})
+		if(!authenticate(req.body.oldPassword, user.password)) return res.status(404).json({message: 'Old password is not correct.'})
+		if(!req.body.newPassword) return  res.status(404).json({message: 'New password can\'t be empty.'})
+		User.update({password: req.body.newPassword}, {
+			where: { id: req.params.id }
+		})
+		.then(() => {
+			res.json({message: `Successfully updated user's password with id = ${req.params.id}`});
+		});
+	});
+}
