@@ -10,7 +10,7 @@ exports.authenticate = (req, res) => {
 	.then(user => {
 		if(!user) return res.status(404).json({message: 'This email is not registered.'})
         if(!authenticate(req.body.password, user.password)) return res.status(404).json({message: 'This password is not correct.'})
-        let role = user.role, token = signToken(user._id, role);
+        let role = user.role, token = signToken(user.id, role);
         res.json({ token, role });
 	});
 };

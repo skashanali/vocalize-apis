@@ -68,7 +68,7 @@ exports.hasRole = (roleRequired) => {
 
 // Returns a jwt token signed by the app secret
 exports.signToken = (id, role) => {
-    return jwt.sign({ id: id, role }, config.secrets.session, {
+    return jwt.sign({ id, role }, config.secrets.session, {
         expiresIn: 60 * 60 * 5
     });
 }
