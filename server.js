@@ -5,10 +5,9 @@ var registerRoutes = require('./routes');
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json())
- 
-const db = require('./config/db.config');
 
-const port = 8000;
+const db = require('./config/db.config');
+const {port} = require('./config/env');
   
 registerRoutes(app);
 

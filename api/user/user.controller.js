@@ -17,8 +17,8 @@ exports.findAll = (req, res) => {
 		attributes: [ 'id', 'name', 'email', 'cnic', 'role' ]
 	})
 	.then(users => {
-		if(users.length===0) res.status(404).json({message: 'No users found.'})
-		else res.json(users);
+		if(users.length === 0)  return res.status(404).json({message: 'No users found.'})
+		res.json(users);
 	});
 };
  
@@ -29,8 +29,8 @@ exports.find = (req, res) => {
 		attributes: [ 'id', 'name', 'email', 'cnic', 'role' ]
 	})
 	.then(user => {
-		if(!user) res.status(404).json({message: 'User not found.'})
-		else res.json(user);
+		if(!user) return res.status(404).json({message: 'User not found.'})
+		res.json(user);
 	});
 };
  
@@ -41,11 +41,11 @@ exports.update = (req, res) => {
 		})
 		.then(modified => {
 			let [count] = modified;
-			if(!count) res.status(404).json({message: 'User not found.'})
-			else res.json({message: `Successfully updated a user with id = ${req.params.id}`});
+			if(!count) return res.status(404).json({message: 'User not found.'})
+			res.json({message: `Successfully updated a user with id = ${req.params.id}`});
 		})
 		.catch(err => {
-			res.status(400).json({message: err.errors[0].message})
+			res.status(422).json({message: err.errors[0].message})
 		});
 };
  
@@ -55,7 +55,7 @@ exports.delete = (req, res) => {
 	  where: { id: req.params.id }
 	})
 	.then(user => {
-		if(!user) res.status(404).json({message: 'User not found.'})
-	  else res.json({message: `Successfully deleted a user with id = ${req.params.id}`});
+		if(!user) return res.status(404).json({message: 'User not found.'})
+		res.json({message: `Successfully deleted a user with id = ${req.params.id}`});
 	});
 };

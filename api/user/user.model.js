@@ -38,13 +38,6 @@ module.exports = (sequelize, Sequelize) => {
 			allowNull: false,
 			defaultValue: 'citizen'
 		}
-	}, {
-		instanceMethods: {
-			// authenticate user given password
-			authenticate(pwd) {
-				return bcrypt.compareSync(pwd, this.password);
-			},
-		}
 	});
 
 	return User;
