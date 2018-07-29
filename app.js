@@ -1,14 +1,12 @@
 var express = require('express');
 var app = express();
-var bodyParser = require('body-parser');
+var expressConfig = require('./config/express');
 var registerRoutes = require('./routes');
-
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json())
 
 const db = require('./config/db.config');
 const {port} = require('./config/env');
-  
+
+expressConfig(app);
 registerRoutes(app);
 
 // force: true will drop the table if it already exists
