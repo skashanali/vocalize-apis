@@ -5,7 +5,8 @@ const {scanQueryParams} = require('../../lib/index');
  
 // Creates an Issue
 exports.create = (req, res) => {
-    req.body.createdBy = req.user.id;
+	// req.body.city = req.user.city;
+	// req.body.createdBy = req.user.id;
 	Issue.create(req.body).then(issue => {
 		res.json(issue);
 	})

@@ -4,7 +4,6 @@ module.exports = (sequelize, Sequelize) => {
 	const User = sequelize.define('user', {
 		name: {
 			type: Sequelize.STRING,
-			allowNull: false
 		},
 		email: {
 			type: Sequelize.STRING,
@@ -20,7 +19,6 @@ module.exports = (sequelize, Sequelize) => {
 		},
 		cnic: {
 			type: Sequelize.INTEGER,
-			allowNull: false,
 			unique: {
 				msg: 'The specified cnic number is already in use.'
 			}
@@ -33,13 +31,14 @@ module.exports = (sequelize, Sequelize) => {
 				this.setDataValue('password', bcrypt.hashSync(pwd, 10));
 			}
 		},
+		type: {
+			type: Sequelize.STRING,
+		},
 		city: {
 			type: Sequelize.STRING,
-			allowNull: false,
 		},
 		area: {
 			type: Sequelize.STRING,
-			allowNull: false,
 		},
 		role: {
 			type: Sequelize.STRING,

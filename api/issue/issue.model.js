@@ -12,18 +12,18 @@ module.exports = (sequelize, Sequelize) => {
 			type: Sequelize.STRING,
 			allowNull: false
         },
-        city: {
-			type: Sequelize.STRING,
-			allowNull: false
-        },
+        // city: {
+		// 	type: Sequelize.STRING,
+		// 	allowNull: false
+        // },
 		location: {
 			type: Sequelize.STRING,
 			allowNull: false
         },
-        createdBy: {
-			type: Sequelize.INTEGER,
-			allowNull: false
-        },
+        // createdBy: {
+		// 	type: Sequelize.INTEGER,
+		// 	allowNull: false
+        // },
         pushUp:{
             type: Sequelize.INTEGER,
             defaultValue: 0
